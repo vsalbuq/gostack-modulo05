@@ -16,7 +16,7 @@ export const Owner = styled.header`
   align-items: center;
 
   a {
-    color: #7159c1;
+    color: #0d5cc9;
     font-size: 16px;
     text-decoration: none;
   }
@@ -76,10 +76,9 @@ export const IssueList = styled.ul`
       a {
         text-decoration: none;
         color: #333;
-
-        a:hover {
-          color: #7159c1;
-        }
+      }
+      a:hover {
+        color: #0d5cc9;
       }
 
       span {
@@ -91,6 +90,10 @@ export const IssueList = styled.ul`
         height: 20px;
         padding: 3px 4px;
         margin-left: 10px;
+      }
+      span:hover {
+        background: #0d5cc9;
+        color: #fff;
       }
     }
 
