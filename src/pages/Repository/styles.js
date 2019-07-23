@@ -104,3 +104,18 @@ export const IssueList = styled.ul`
     }
   }
 `;
+
+export const IssueState = styled.div`
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  button {
+    margin: 5px;
+    padding: 10px 15px;
+    border-radius: 20px;
+    border: 1px solid #eee;
+  }
+`;

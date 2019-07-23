@@ -6,7 +6,7 @@ import api from '../../services/api';
 
 import Container from '../../components/Container';
 
-import { Loading, Owner, IssueList } from './styles';
+import { Loading, Owner, IssueList, IssueState } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -21,10 +21,12 @@ export default class Repository extends Component {
     repository: {},
     issues: [],
     loading: true,
+    issueState: 'all',
   };
 
   async componentDidMount() {
     const { match } = this.props;
+    const { issueState } = this.state;
 
     const repoName = decodeURIComponent(match.params.repository);
 
@@ -32,7 +34,7 @@ export default class Repository extends Component {
       api.get(`/repos/${repoName}`),
       api.get(`/repos/${repoName}/issues`, {
         params: {
-          state: 'open',
+          state: issueState,
           per_page: 5,
         },
       }),
@@ -42,6 +44,30 @@ export default class Repository extends Component {
       repository: repository.data,
       issues: issues.data,
       loading: false,
+      issueState,
+    });
+  }
+
+  async filter(filter) {
+    const { match } = this.props;
+
+    const repoName = decodeURIComponent(match.params.repository);
+
+    const [repository, issues] = await Promise.all([
+      api.get(`/repos/${repoName}`),
+      api.get(`/repos/${repoName}/issues`, {
+        params: {
+          state: filter,
+          per_page: 5,
+        },
+      }),
+    ]);
+
+    this.setState({
+      repository: repository.data,
+      issues: issues.data,
+      loading: false,
+      issueState: filter,
     });
   }
 
@@ -60,7 +86,17 @@ export default class Repository extends Component {
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
         </Owner>
-
+        <IssueState>
+          <button type="button" onClick={() => this.filter('all')}>
+            All
+          </button>
+          <button type="button" onClick={() => this.filter('open')}>
+            Open
+          </button>
+          <button type="button" onClick={() => this.filter('closed')}>
+            Closed
+          </button>
+        </IssueState>
         <IssueList>
           {issues.map(issue => (
             <li key={String(issue.id)}>
