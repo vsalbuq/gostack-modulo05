@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FaGithubAlt, FaPlus, FaSpinner } from 'react-icons/fa';
 
-import { Form, SubmitButton, List } from './styles';
+import { Form, SubmitButton, List, ErrorMessage } from './styles';
 
 import Container from '../../components/Container';
 
@@ -14,6 +14,7 @@ export default class Main extends Component {
     repositories: [],
     loading: false,
     error: false,
+    errorMessage: '',
   };
 
   // Carrega os dados do localStorage
@@ -48,46 +49,51 @@ export default class Main extends Component {
     const { newRepo, repositories } = this.state;
 
     try {
-      if (newRepo === '') throw 'Empty field';
+      if (newRepo === '') throw new Error('Please, type something first');
       else if (repositories.find(r => r.name === newRepo))
-        throw 'Duplicate repository';
-      const response = await api.get(`/repos/${newRepo}`);
+        throw new Error('This repository is already added...');
+      try {
+        const response = await api.get(`/repos/${newRepo}`);
+        const data = {
+          name: response.data.full_name,
+        };
 
-      const data = {
-        name: response.data.full_name,
-      };
-
-      this.setState({
-        newRepo: '',
-        repositories: [...repositories, data],
-        loading: false,
-        error: false,
-      });
+        this.setState({
+          newRepo: '',
+          repositories: [...repositories, data],
+          loading: false,
+          error: false,
+          errorMessage: '',
+        });
+      } catch (error) {
+        throw new Error('Sorry, I could not find that repository');
+      }
     } catch (error) {
       this.setState({
         newRepo: '',
         repositories: [...repositories],
         loading: false,
         error: true,
+        errorMessage: error.message,
       });
       console.log(error);
     }
   };
 
   render() {
-    const { newRepo, repositories, loading, error } = this.state;
+    const { newRepo, repositories, loading, error, errorMessage } = this.state;
 
     return (
       <Container>
         <h1>
           <FaGithubAlt />
-          Repositórios
+          Repositories
         </h1>
 
         <Form onSubmit={this.handleSubmit} error={error}>
           <input
             type="text"
-            placeholder="Adicionar repositório"
+            placeholder="Add repository"
             value={newRepo}
             onChange={this.handleInputChange}
           />
@@ -100,6 +106,7 @@ export default class Main extends Component {
             )}
           </SubmitButton>
         </Form>
+        <ErrorMessage error={error}>{errorMessage}</ErrorMessage>
 
         <List>
           {repositories.map(repository => (
