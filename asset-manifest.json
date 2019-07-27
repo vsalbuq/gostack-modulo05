@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/gostack-modulo05/static/js/main.f8d16ecb.chunk.js",
-    "main.js.map": "/gostack-modulo05/static/js/main.f8d16ecb.chunk.js.map",
+    "main.js": "/gostack-modulo05/static/js/main.e88af5c9.chunk.js",
+    "main.js.map": "/gostack-modulo05/static/js/main.e88af5c9.chunk.js.map",
     "runtime~main.js": "/gostack-modulo05/static/js/runtime~main.86c3b51d.js",
     "runtime~main.js.map": "/gostack-modulo05/static/js/runtime~main.86c3b51d.js.map",
     "static/js/2.4fa01d92.chunk.js": "/gostack-modulo05/static/js/2.4fa01d92.chunk.js",
     "static/js/2.4fa01d92.chunk.js.map": "/gostack-modulo05/static/js/2.4fa01d92.chunk.js.map",
     "index.html": "/gostack-modulo05/index.html",
-    "precache-manifest.058bd473be10182227379af5aa7e1bce.js": "/gostack-modulo05/precache-manifest.058bd473be10182227379af5aa7e1bce.js",
+    "precache-manifest.bcf1b891fdcfff77fd41ff0b9d5a9ca7.js": "/gostack-modulo05/precache-manifest.bcf1b891fdcfff77fd41ff0b9d5a9ca7.js",
     "service-worker.js": "/gostack-modulo05/service-worker.js"
   }
 }

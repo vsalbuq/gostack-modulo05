@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "419945df5b268ee4bf588727462c947f",
+    "revision": "f3cc578f790e3ace154c3e617ea62075",
     "url": "/gostack-modulo05/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/gostack-modulo05/static/js/2.4fa01d92.chunk.js"
   },
   {
-    "revision": "60021593a9b1b8b259b9",
-    "url": "/gostack-modulo05/static/js/main.f8d16ecb.chunk.js"
+    "revision": "c90cf61f7c95848d68e1",
+    "url": "/gostack-modulo05/static/js/main.e88af5c9.chunk.js"
   },
   {
     "revision": "a937b71922b6f2f3e60e",
