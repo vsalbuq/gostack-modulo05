@@ -118,4 +118,34 @@ export const IssueState = styled.div`
     border-radius: 20px;
     border: 1px solid #eee;
   }
+
+  button:hover {
+    background: #0d5cc9;
+    color: #fff;
+  }
+
+  button[name='${props => props.state}'] {
+    background: #0d5cc9;
+    color: #fff;
+  }
+`;
+
+export const Footer = styled.div`
+  display: flex;
+  justify-content: space-between;
+
+  button {
+    background: #fff;
+    border: 1px solid #0d5cc9;
+    border-radius: 4px;
+    color: #0d5cc9;
+    padding: 5px 10px;
+    margin: 5px;
+  }
+
+  button[type='button']:disabled {
+    cursor: not-allowed;
+    color: #eee;
+    border: 1px solid #eee;
+  }
 `;

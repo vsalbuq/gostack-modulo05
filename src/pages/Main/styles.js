@@ -73,3 +73,9 @@ export const List = styled.ul`
     text-decoration: none;
   }
 `;
+
+export const ErrorMessage = styled.p`
+  margin-top: 5px !important;
+  color: #f00;
+  display: ${props => (props.error ? 'block' : 'none')};
+`;

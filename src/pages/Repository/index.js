@@ -6,7 +6,7 @@ import api from '../../services/api';
 
 import Container from '../../components/Container';
 
-import { Loading, Owner, IssueList, IssueState } from './styles';
+import { Loading, Owner, IssueList, IssueState, Footer } from './styles';
 
 export default class Repository extends Component {
   static propTypes = {
@@ -22,6 +22,7 @@ export default class Repository extends Component {
     issues: [],
     loading: true,
     issueState: 'all',
+    page: 1,
   };
 
   async componentDidMount() {
@@ -71,8 +72,32 @@ export default class Repository extends Component {
     });
   }
 
+  async pagination(filter, page) {
+    const { match } = this.props;
+
+    const repoName = decodeURIComponent(match.params.repository);
+
+    const [repository, issues] = await Promise.all([
+      api.get(`/repos/${repoName}`),
+      api.get(`/repos/${repoName}/issues`, {
+        params: {
+          state: filter,
+          per_page: 5,
+          page,
+        },
+      }),
+    ]);
+    this.setState({
+      repository: repository.data,
+      issues: issues.data,
+      loading: false,
+      issueState: filter,
+      page,
+    });
+  }
+
   render() {
-    const { repository, issues, loading } = this.state;
+    const { repository, issues, loading, issueState, page } = this.state;
 
     if (loading) {
       return <Loading>Carregando...</Loading>;
@@ -86,14 +111,18 @@ export default class Repository extends Component {
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
         </Owner>
-        <IssueState>
-          <button type="button" onClick={() => this.filter('all')}>
+        <IssueState state={issueState}>
+          <button name="all" type="button" onClick={() => this.filter('all')}>
             All
           </button>
-          <button type="button" onClick={() => this.filter('open')}>
+          <button name="open" type="button" onClick={() => this.filter('open')}>
             Open
           </button>
-          <button type="button" onClick={() => this.filter('closed')}>
+          <button
+            name="closed"
+            type="button"
+            onClick={() => this.filter('closed')}
+          >
             Closed
           </button>
         </IssueState>
@@ -113,6 +142,23 @@ export default class Repository extends Component {
             </li>
           ))}
         </IssueList>
+        <Footer page={page}>
+          <button
+            className="prev"
+            type="button"
+            onClick={() => this.pagination(issueState, page - 1)}
+            disabled={page == 1}
+          >
+            Previous
+          </button>
+          <button
+            className="next"
+            type="button"
+            onClick={() => this.pagination(issueState, page + 1)}
+          >
+            Next
+          </button>
+        </Footer>
       </Container>
     );
   }
